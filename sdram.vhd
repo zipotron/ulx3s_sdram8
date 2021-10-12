@@ -179,12 +179,12 @@ begin
 			 CMD_AUTO_REFRESH when (we_out_aux = '0' and oe = '0' and (q = STATE_CMD_START)) else
 			 CMD_INHIBIT;
   
-  sd_cmd <= reset_cmd when reset /= "000" else run_cmd;
+  sd_cmd <= reset_cmd when reset /= "00000000000000000" else run_cmd;
   reset_addr <= "0010000000000" when unsigned(reset) = 13 else MODE;
   run_addr <= addr(21 downto 9) when q = STATE_CMD_START else "0010" & addr(24) & addr(8 downto 1);
   sd_data_out <= din & din when we_out_aux = '1' else "0000000000000000";
-  sd_addr <= reset_addr when reset /= "000" else run_addr;
-  sd_ba <= "00" when reset /= "000" else addr(23 downto 22);
+  sd_addr <= reset_addr when reset /= "00000000000000000" else run_addr;
+  sd_ba <= "00" when reset /= "00000000000000000" else addr(23 downto 22);
   sd_dqm <= addr(0) & not addr(0) when we_out_aux = '1' else "00";
   
   sd_cs  <= sd_cmd(3);
